@@ -1,5 +1,6 @@
+if: branch = master
 language: python
 install:
     - pip install -r requirements.txt
 script:
-    - python hello.py
+    - python travis.py
