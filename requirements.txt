@@ -1,1 +1,3 @@
 gitpython
+firebase_admin
+python-dotenv
