@@ -1,0 +1,25 @@
+{
+    "Name": "GNOME Asia 2018",
+    "Organization": "GNOME",
+    "Location": "National Taiwan University of Science and Technology, Taipei City, Taiwan",
+    "Description": "GNOME Asia Summit is the featured annual GNOME Conference in Asia. The event focuses primarily on the GNOME desktop but also covers applications and the development platform tools. It brings together the GNOME community in Asia to provide a forum for users, developers, foundation leaders, governments and businesses to discuss the present technology and future developments.",
+    "Keywords": [
+        "Linux",
+        "Gnome",
+        "Asia"
+    ],
+    "Event Start Date": "2018-08-11T00:00:00+00:00",
+    "Event End Date": "2018-08-12T00:00:00+00:00",
+    "Call For Proposals Start Date": "2018-04-27T00:00:00+00:00",
+    "Call For Proposals End Date": "2018-05-25T00:00:00+00:00",
+    "Logo": "gnome-asia-taipei-2018-logo.svg (https://dl.airtable.com/61PXoLaARkeB3QezXeGA_gnome-asia-taipei-2018-logo.svg)",
+    "Cover Image": null,
+    "Cover Background Color": "#4a86cf",
+    "Website": "http://2018.gnome.asia/",
+    "Registration Link": "https://2018.gnome.asia/registration",
+    "Call For Proposals Link": "https://www.gnome.org/news/2018/04/gnome-asia-summit-2018-call-for-papers-is-now-open/",
+    "Twitter Handle": "gnome",
+    "Your Twitter Handle": "PrabhanshuAttri",
+    "Created On": "2018-06-10T03:20:00+00:00",
+    "Approved": true
+}
