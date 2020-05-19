@@ -9,8 +9,10 @@ import os
 def getChangedFiles():
     repo = Repo('./')
     assert not repo.bare
-    diff = repo.git.diff('HEAD..master', name_only=True)
-    return diff.split('\n')
+    message = repo.git.log('-1', '--pretty=%B')
+    print(message)
+    # diff = repo.git.diff('HEAD..master', name_only=True)
+    # return diff.split('\n')
 
 def filterChangedFiles(changedFiles):
     filteredFiles = []
@@ -28,8 +30,8 @@ def createEvent(file):
 
 def travis():
     changedFiles = getChangedFiles()
-    filteredFiles = filterChangedFiles(changedFiles)
-    print(filteredFiles)
+    # filteredFiles = filterChangedFiles(changedFiles)
+    # print(filteredFiles)
 
 
 
