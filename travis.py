@@ -95,7 +95,7 @@ def deploy(message):
     response = getResponseFromMessage(message)
     changedFiles = getChangedFiles(response)
     changedFiles = filterChangedFiles(changedFiles)
-    changedFiles = ['events/dummy6.json']
+    # changedFiles = ['events/dummy6.json']
     print("Changed files:", changedFiles)
     cred = credentials.Certificate('serviceAccount.json')
     firebase_admin.initialize_app(cred)
@@ -115,7 +115,7 @@ def travis():
     repo = Repo('./')
     assert not repo.bare
     message = repo.git.log('-1', '--pretty=%B')
-    message = "Merge pull request #4 from aniruddhavpatil/dev\n\nTrigger build"
+    # message = "Merge pull request #4 from aniruddhavpatil/dev\n\nTrigger build"
     if re.search("^Merge pull request #*", message):
         deploy(message)
 
