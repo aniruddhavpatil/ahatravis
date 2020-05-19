@@ -27,9 +27,62 @@ def filterChangedFiles(changedFiles):
             filteredFiles.append(file)
     return filteredFiles
 
+def checkExists(db, event):
+    # event = {
+    #     "Name": "KubeConn + CloudNativeCon China 2018",
+    #     "Organization": "The Linux Foundation",
+    #     "Location": "\u4e0a\u6d77\u8de8\u56fd\u91c7\u8d2d\u4f1a\u5c55\u4e2d\u5fc3, Shanghai, China",
+    #     "Description": "KubeCon + CloudNativeCon gathers all CNCF projects under one roof. Join leading technologists from open source cloud-native communities to further the advancement of cloud-native computing.",
+    #     "Keywords": [
+    #         "Linux",
+    #         "Linux Foundation",
+    #         "Cloud",
+    #         "Asia"
+    #     ],
+    #     "Event Start Date": "2018-11-14T00:00:00+00:00",
+    #     "Event End Date": "2018-11-15T00:00:00+00:00",
+    #     "Call For Proposals Start Date": "2018-05-21T00:00:00+00:00",
+    #     "Call For Proposals End Date": "2018-07-06T00:00:00+00:00",
+    #     "Logo": "logo_kc_cnc_cn18w.png (https://dl.airtable.com/N31ydQOuS0CmUOb7lkdF_logo_kc_cnc_cn18w.png)",
+    #     "Cover Image": "shanghai-1.jpg (https://dl.airtable.com/JiZTXVyxTz252jiYwuix_shanghai-1.jpg)",
+    #     "Cover Background Color": None,
+    #     "Website": "https://www.lfasiallc.com/events/kubecon-cloudnativecon-china-2018/",
+    #     "Registration Link": "https://www.bagevent.com/event/kubecon-cloudnativecon-china-2018-e",
+    #     "Call For Proposals Link": "https://linuxfoundation.smapply.io/prog/kubecon_cloudnativecon_china_2018/",
+    #     "Twitter Handle": "linuxfoundation",
+    #     "Your Twitter Handle": "PrabhanshuAttri",
+    #     "Created On": "2018-06-12T02:16:00+00:00",
+    #     "Approved": True
+    # }
+    # cred = credentials.Certificate('serviceAccount.json')
+    # firebase_admin.initialize_app(cred)
+    # db = firestore.client()
+
+    existingDocs = []
+    query = db.collection('events').where('Name', '==', event['Name'])
+    existingDocs = [snapshot.reference for snapshot in query.stream()]
+    if len(existingDocs) == 0:
+        return False
+    else:
+        return existingDocs
+
 def createEvent(db, event):
-    db.collection(u'events').document().set(event)
-    print("Added event:", event['Name'])
+    try:
+        db.collection('events').document().set(event)
+        print("Created event:", event['Name'])
+    except:
+        print("Could not make entry to the database.")
+    
+def deleteEvent(existingDocs):
+    for doc in existingDocs:
+        try:
+            name = doc.get().to_dict()['Name']
+            doc.delete()
+            print("Deleted event:", name)
+        except:
+            print("Could not delete event.")
+    
+
 
 def getResponseFromMessage(message):
     prNumber = int(message.split(' ')[3].strip('#'))
@@ -42,21 +95,27 @@ def deploy(message):
     response = getResponseFromMessage(message)
     changedFiles = getChangedFiles(response)
     changedFiles = filterChangedFiles(changedFiles)
-    print("Changed events:", changedFiles)
-    # changedFiles = ['events/dummy1.json', 'events/dummy2.json']
+    changedFiles = ['events/dummy6.json']
+    print("Changed files:", changedFiles)
     cred = credentials.Certificate('serviceAccount.json')
     firebase_admin.initialize_app(cred)
     db = firestore.client()
     for file in changedFiles:
         f = open(file, 'r')
         event = json.loads(f.read())
-        createEvent(db, event)
+        existingDocs = checkExists(db, event)
+        if not existingDocs:
+            createEvent(db, event)
+        else:
+            print("Found existing event. Overwriting.")
+            deleteEvent(existingDocs)
+            createEvent(db, event)
 
 def travis():
     repo = Repo('./')
     assert not repo.bare
     message = repo.git.log('-1', '--pretty=%B')
-    # message = "Merge pull request #2 from aniruddhavpatil/dev\n\nTrigger build"
+    message = "Merge pull request #4 from aniruddhavpatil/dev\n\nTrigger build"
     if re.search("^Merge pull request #*", message):
         deploy(message)
 
@@ -69,6 +128,4 @@ def travis():
 
 
 if __name__ == '__main__':
-    # load_dotenv()
-    # print(os.getenv("HELLO"))
     travis()
