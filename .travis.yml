@@ -1,5 +1,6 @@
 if: branch = master
 language: python
+openssl aes-256-cbc -K $encrypted_2c6bf604352c_key -iv $encrypted_2c6bf604352c_iv -in serviceAccount.json.enc -out serviceAccount.json -d
 install:
     - pip install -r requirements.txt
 script:
