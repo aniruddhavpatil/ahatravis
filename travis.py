@@ -9,7 +9,7 @@ import os
 def getChangedFiles():
     repo = Repo('./')
     assert not repo.bare
-    diff = repo.git.diff('HEAD..' + os.getenv("TRAVIS_BRANCH"), name_only=True)
+    diff = repo.git.diff('HEAD..master', name_only=True)
     return diff.split('\n')
 
 def filterChangedFiles(changedFiles):
