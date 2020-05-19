@@ -28,8 +28,8 @@ def filterChangedFiles(changedFiles):
     return filteredFiles
 
 def createEvent(db, event):
-    # print(event)
     db.collection(u'events').document().set(event)
+    print("Added event:", event['Name'])
 
 def getResponseFromMessage(message):
     prNumber = int(message.split(' ')[3].strip('#'))
@@ -38,9 +38,11 @@ def getResponseFromMessage(message):
     return response
 
 def deploy(message):
+    print("Merge to master detected. Starting deployment.")
     response = getResponseFromMessage(message)
     changedFiles = getChangedFiles(response)
     changedFiles = filterChangedFiles(changedFiles)
+    print("Changed events:", changedFiles)
     # changedFiles = ['events/dummy1.json', 'events/dummy2.json']
     cred = credentials.Certificate('serviceAccount.json')
     firebase_admin.initialize_app(cred)
