@@ -1,8 +1,15 @@
-if: branch = master
-language: python
-install:
-- pip install -r requirements.txt
-script:
-- python travis.py
-before_install:
-- openssl aes-256-cbc -K $encrypted_2c6bf604352c_key -iv $encrypted_2c6bf604352c_iv -in serviceAccount.json.enc -out serviceAccount.json -d
+jobs:
+    pullRequest:
+        - if: type = pull_request
+        - echo "This is a pull request"
+    pushMaster:
+        - if: branch = master
+        - language: python
+        - install:
+            - pip install -r requirements.txt
+        - script:
+            - python travis.py
+        - before_install:
+            - openssl aes-256-cbc -K $encrypted_2c6bf604352c_key -iv $encrypted_2c6bf604352c_iv -in serviceAccount.json.enc -out serviceAccount.json -d
+    pushOther:
+        - echo "This is a push to a branch other than master"
