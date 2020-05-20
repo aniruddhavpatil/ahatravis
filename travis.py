@@ -97,8 +97,6 @@ def deploy(message):
     changedFiles = filterChangedFiles(changedFiles)
     # changedFiles = ['events/dummy6.json']
     print("Changed files:", changedFiles)
-    serviceAccount = os.getenv("json")
-    print("Service account",serviceAccount)
     cred = credentials.Certificate('serviceAccount.json')
     firebase_admin.initialize_app(cred)
     db = firestore.client()

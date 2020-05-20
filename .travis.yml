@@ -1,7 +1,8 @@
-# if: branch = master
+if: branch = master
 language: python
 install:
 - pip install -r requirements.txt
 script:
-- echo $private_key
-# - python travis.py
+- python travis.py
+before_install:
+- openssl aes-256-cbc -K $encrypted_2c6bf604352c_key -iv $encrypted_2c6bf604352c_iv -in serviceAccount.json.enc -out serviceAccount.json -d
