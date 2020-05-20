@@ -1,10 +1,10 @@
+language: python
 jobs:
     pullRequest:
         - if: type = pull_request
         - echo "This is a pull request"
     pushMaster:
         - if: type = push AND branch = master
-        - language: python
         - install:
             - pip install -r requirements.txt
         - script:
